@@ -20,7 +20,7 @@ No manual download, GitHub account, or administrator rights required. Internet a
 
 The installer gives you short instructions in Russian and helps you:
 
-1. Choose an installed Chrome, Edge, or Firefox browser. Your default browser is listed first when recognized.
+1. Choose an installed Chrome, Edge, or Firefox browser. Your default browser is listed first when recognized. Selection is always explicit, even if only one browser is found. Use **M** to provide the full path to `chrome.exe`, `msedge.exe`, or `firefox.exe` for a custom installation.
 2. Open the official Tampermonkey store if you need it.
 3. Enable **Allow User Scripts** in Chromium when required.
 4. Open the installer page and install the scripts one at a time.
@@ -131,6 +131,14 @@ Ask the administrator whether Tampermonkey is allowed. If extensions or their re
 ### GitHub or raw pages are blocked
 
 If the PowerShell command cannot reach `raw.githubusercontent.com`, try the installer page. The script buttons also use raw GitHub, so a block on that host affects both paths. An already-downloaded trusted release can be imported manually; updates still require access to GitHub. Ask the network administrator about blocked hosts rather than changing PC policies.
+
+### Running a downloaded installer locally
+
+The installer uses UTF-8 **without BOM** so `irm | iex` works in Windows PowerShell 5.1. When running a saved copy in that shell, decode it explicitly:
+
+```powershell
+Get-Content -LiteralPath .\install.ps1 -Raw -Encoding UTF8 | Invoke-Expression
+```
 
 ### PowerShell cannot fetch the installer
 

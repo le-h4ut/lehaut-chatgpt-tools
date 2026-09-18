@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.1] - 2026-09-18
+
+### Fixed
+
+- Removed the UTF-8 BOM from the bootstrapper: Windows PowerShell 5.1 could interpret it as part of the first command when using `irm | iex`.
+- Always ask which browser to use, even when only Edge is detected. Explain the detection result and support a manual executable path for custom browser installations.
+- Check execution of downloaded installer text, not just parsing. Userscript code and versions are unchanged.
+
 ## [v1.0.0] - 2026-09-18
 
 Initial distribution release. This is the repository release version; individual userscript versions remain unchanged.

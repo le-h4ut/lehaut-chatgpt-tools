@@ -8,7 +8,6 @@ param(
 $ErrorActionPreference = 'Stop'
 $root = Split-Path $PSScriptRoot -Parent
 $utf8 = New-Object System.Text.UTF8Encoding($false)
-$utf8Bom = New-Object System.Text.UTF8Encoding($true)
 $configPath = Join-Path $root 'repo.json'
 $config = Get-Content -LiteralPath $configPath -Raw -Encoding UTF8 | ConvertFrom-Json
 $oldRaw = 'https://raw.githubusercontent.com/{0}/{1}/{2}' -f $config.owner, $config.repository, $config.branch
@@ -63,7 +62,6 @@ foreach ($name in @('README.md', 'docs/index.html', 'install.ps1')) {
     if (Test-Path -LiteralPath $path) {
         $text = [IO.File]::ReadAllText($path).Replace($oldRaw, $raw).Replace($oldRepo, $repo).Replace($oldPages, $pages).Replace($oldIdentity, ('{0}/{1}' -f $config.owner, $config.repository))
         $encoding = $utf8
-        if ($name -eq 'install.ps1') { $encoding = $utf8Bom }
         [IO.File]::WriteAllText($path, $text, $encoding)
     }
 }

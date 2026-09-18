@@ -1,4 +1,4 @@
-﻿#requires -Version 5.1
+#requires -Version 5.1
 # Works both as a file and through: irm <raw URL>/install.ps1 | iex
 # Deliberately self-contained: no sibling files, profile parsing or policy edits.
 & {
@@ -87,29 +87,44 @@
             }
         )
         $available = @($available | Sort-Object -Property @{ Expression = 'IsDefault'; Descending = $true })
+        Write-Host 'Поддерживаются Chrome, Edge и Firefox. Выберите браузер для установки.'
         if ($available.Count -eq 0) {
-            Write-Host 'Не найден установленный Chrome, Edge или Firefox.' -ForegroundColor Yellow
-            Write-Host 'Откройте страницу в своём браузере и выполните установку вручную:'
-            Write-Host $pagesUrl
-            return
+            Write-Host 'Автоматически не найден ни один из поддерживаемых браузеров.' -ForegroundColor Yellow
+        } elseif ($available.Count -eq 1) {
+            Write-Host 'Автоматически найден только один поддерживаемый браузер:'
         }
-        $selected = $available[0]
-        if ($available.Count -gt 1) {
-            for ($i = 0; $i -lt $available.Count; $i++) {
-                $suffix = ''
-                if ($available[$i].IsDefault) { $suffix = ' (по умолчанию)' }
-                Write-Host ('{0}. {1}{2}' -f ($i + 1), $available[$i].Name, $suffix)
-            }
-            while ($true) {
-                $choice = Read-Host 'Выберите браузер [Enter — 1]'
-                if ($choice -match '^\s*[QqЙй]\s*$') { return }
-                if ([string]::IsNullOrWhiteSpace($choice)) { $choice = '1' }
-                $number = 0
-                if ([int]::TryParse($choice, [ref]$number) -and $number -ge 1 -and $number -le $available.Count) {
-                    $selected = $available[$number - 1]
-                    break
+        for ($i = 0; $i -lt $available.Count; $i++) {
+            $suffix = ''
+            if ($available[$i].IsDefault) { $suffix = ' (по умолчанию)' }
+            Write-Host ('{0}. {1}{2}' -f ($i + 1), $available[$i].Name, $suffix)
+        }
+        Write-Host 'M. Указать путь к chrome.exe, msedge.exe или firefox.exe вручную'
+        Write-Host 'Q. Выйти'
+        $selected = $null
+        while ($null -eq $selected) {
+            $choice = Read-Host 'Введите номер, M или Q'
+            if ($choice -match '^\s*[QqЙй]\s*$') { return }
+            if ($choice -match '^\s*[MmЬь]\s*$') {
+                $manualPath = (Read-Host 'Полный путь к EXE браузера (Q — назад)').Trim().Trim('"')
+                if ($manualPath -match '^\s*[QqЙй]\s*$') { continue }
+                $manualPath = [Environment]::ExpandEnvironmentVariables($manualPath)
+                $definition = $browserDefinitions | Where-Object { $_.Exe -eq [IO.Path]::GetFileName($manualPath) } | Select-Object -First 1
+                if ($definition -and [IO.Path]::IsPathRooted($manualPath) -and (Test-Path -LiteralPath $manualPath -PathType Leaf)) {
+                    $selected = [pscustomobject]@{
+                        Name = $definition.Name; Path = $manualPath; Store = $definition.Store; Settings = $definition.Settings
+                        IsDefault = $false
+                    }
+                } else {
+                    Write-Host 'Файл не найден или это не chrome.exe, msedge.exe либо firefox.exe.' -ForegroundColor Yellow
+                    Write-Host 'Для portable-версии укажите EXE самого браузера, а не его launcher.'
                 }
-                Write-Host 'Введите номер из списка.'
+                continue
+            }
+            $number = 0
+            if ([int]::TryParse($choice, [ref]$number) -and $number -ge 1 -and $number -le $available.Count) {
+                $selected = $available[$number - 1]
+            } else {
+                Write-Host 'Введите номер из списка, M для ручного выбора или Q для выхода.'
             }
         }
         Write-Host ("Браузер: " + $selected.Name)

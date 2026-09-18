@@ -15,3 +15,6 @@ jobs:
       - name: Check stable sources and distribution
         shell: powershell
         run: ./scripts/verify.ps1
+      - name: Exercise installer in Windows PowerShell 5.1
+        shell: powershell
+        run: ./scripts/test-installer.ps1
