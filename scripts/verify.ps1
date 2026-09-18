@@ -41,7 +41,7 @@ foreach ($line in Get-Content -LiteralPath (Join-Path $root 'archive/SHA256SUMS.
 }
 foreach ($file in Get-ChildItem -LiteralPath $root -Recurse -Filter '*.ps1') {
     $tokens = $null; $parseErrors = $null
-    $null = [System.Management.Automation.Language.Parser]::ParseFile($file.FullName, [ref]$tokens, [ref]$parseErrors)
+    $null = [System.Management.Automation.Language.Parser]::ParseInput([IO.File]::ReadAllText($file.FullName), [ref]$tokens, [ref]$parseErrors)
     if ($parseErrors.Count) { throw ($parseErrors | Out-String) }
 }
 $html = [IO.File]::ReadAllText((Join-Path $root 'docs/index.html'))
