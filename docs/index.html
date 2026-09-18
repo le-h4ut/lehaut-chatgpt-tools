@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111513">
+  <meta name="description" content="Bring your ChatGPT tools along. Install full-history search, conversation exports and a desktop Markdown fixpack with Tampermonkey.">
+  <title>Le_Haut ChatGPT Tools — Install</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="stylesheet" href="app.css">
+  <script src="config.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#tools">Skip to tools</a>
+  <header class="masthead wrap">
+    <a class="brand" href="./" aria-label="Le_Haut ChatGPT Tools home"><span class="brand-mark">L_H</span><span>Le_Haut<span class="brand-sub">CHATGPT TOOLS</span></span></a>
+    <a class="text-link" href="https://github.com/le-h4ut/lehaut-chatgpt-tools" data-repo>View on GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="intro-title">
+      <div>
+        <p class="eyebrow"><span class="dot"></span> YOUR CHATGPT, WITH A FEW GOOD TOOLS</p>
+        <h1 id="intro-title">Find the message.<br>Keep the conversation.</h1>
+        <p class="lead">Search your full chat history, export a conversation, and make Markdown behave. Three independent userscripts. Take the ones you need.</p>
+        <div class="actions">
+          <button class="button primary" id="install-all" hidden>Install all <span aria-hidden="true">→</span></button>
+          <a class="button quiet" href="#setup">Set up Tampermonkey</a>
+        </div>
+        <p class="fine">Chrome · Edge · Firefox <span class="divider">/</span> Firefox for Android</p>
+      </div>
+      <aside class="quick-start" aria-labelledby="quick-title">
+        <p class="eyebrow">QUICK START / WINDOWS</p>
+        <h2 id="quick-title">One line. Your setup.</h2>
+        <p>Paste into PowerShell. Choose your browser, then follow the installation steps.</p>
+        <div class="command"><code id="install-command">irm https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/install.ps1 | iex</code></div>
+        <button class="copy-button" id="copy-command" hidden>Copy command <span aria-hidden="true">⧉</span></button>
+        <span id="copy-status" class="fine" role="status"></span>
+        <p class="fine">No manual download. No admin rights. Browser confirmations stay in your hands.</p>
+      </aside>
+    </section>
+
+    <section id="wizard" class="wizard" aria-labelledby="wizard-title" hidden>
+      <div class="section-heading"><p class="eyebrow" id="wizard-progress"></p><button class="text-button" id="close-wizard">Close guide</button></div>
+      <h2 id="wizard-title" tabindex="-1"></h2>
+      <p id="wizard-description"></p>
+      <p class="fine">An install page opens in a new tab. Confirm in Tampermonkey, then return here. This page cannot detect whether a script was installed.</p>
+      <div class="actions"><a class="button primary" id="wizard-install" target="_blank" rel="noopener noreferrer">Open installation ↗</a><button class="button quiet" id="wizard-next">I've installed it — next</button></div>
+      <p id="wizard-hint" class="fine" role="status"></p>
+    </section>
+
+    <section id="tools" aria-labelledby="tools-title">
+      <div class="section-heading"><h2 id="tools-title">Your toolkit</h2><p class="fine">Install individually. Updates come through Tampermonkey.</p></div>
+      <div class="cards">
+        <article class="tool-card" id="fixpack">
+          <div class="card-top"><span class="tool-symbol" aria-hidden="true">Aa</span><span class="badge">DESKTOP FIRST</span></div>
+          <p class="tool-number">01 / COMPOSE</p>
+          <h3>ChatGPT Le_Haut<br> Fixpack</h3>
+          <p>Keep Markdown literal while typing and render it when you send. Bring the full history back into long chats.</p>
+          <ul><li>Full History Injector</li><li>Composer Format Guard</li><li>Markdown Render on Send</li></ul>
+          <div class="card-bottom"><p class="fine">Stable <span data-version="fixpack">1.0.0</span> · Optional on mobile</p><a class="button install" data-install="fixpack" href="https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_LeHaut_Fixpack.user.js" target="_blank" rel="noopener noreferrer">Install / Update <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="tool-card" id="search">
+          <div class="card-top"><span class="tool-symbol" aria-hidden="true">⌕</span><span class="badge mint">DESKTOP + MOBILE</span></div>
+          <p class="tool-number">02 / FIND</p>
+          <h3>ChatGPT<br> Message Search</h3>
+          <p>Find a message in the entire conversation, including older turns. Jump straight back to the part you need.</p>
+          <ul><li>Full-conversation search</li><li>Reliable jumps to older messages</li><li>Independent of the composer</li></ul>
+          <div class="card-bottom"><p class="fine">Stable <span data-version="search">1.2.0</span> · Ready for Firefox Android</p><a class="button install" data-install="search" href="https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_Message_Search_LeHaut.user.js" target="_blank" rel="noopener noreferrer">Install / Update <span aria-hidden="true">↗</span></a></div>
+        </article>
+        <article class="tool-card" id="exporter">
+          <div class="card-top"><span class="tool-symbol" aria-hidden="true">↓</span><span class="badge mint">DESKTOP + MOBILE</span></div>
+          <p class="tool-number">03 / KEEP</p>
+          <h3>ChatGPT<br> RP Exporter GUI</h3>
+          <p>Save the current conversation as readable RP text or raw JSON. Load the whole chat and check completeness before exporting.</p>
+          <ul><li>RP TXT and RAW JSON</li><li>Service-message filtering for RP text</li><li>Handles switching between chats</li></ul>
+          <div class="card-bottom"><p class="fine">Stable <span data-version="exporter">0.2.0</span> · Ready for Firefox Android</p><a class="button install" data-install="exporter" href="https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_RP_Exporter_GUI.user.js" target="_blank" rel="noopener noreferrer">Install / Update <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+      <p class="fine under-cards">Already using these scripts? Confirm the update in Tampermonkey. Keep one enabled copy of each script.</p>
+      <noscript><p class="notice">JavaScript is disabled. The individual Install / Update links above still work. Install each script and return to this page.</p></noscript>
+    </section>
+
+    <section id="setup" class="setup" aria-labelledby="setup-title">
+      <div class="section-heading"><h2 id="setup-title">A small setup. Then you're in.</h2><span class="eyebrow">FIRST TIME HERE?</span></div>
+      <ol class="steps">
+        <li><span class="step-index">1</span><div><h3>Add Tampermonkey</h3><p>Install the extension in the browser where you use ChatGPT.</p><div class="store-links"><a href="https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo" target="_blank" rel="noopener noreferrer">Chrome ↗</a><a href="https://microsoftedge.microsoft.com/addons/detail/iikmkjmpaadaobahmlepeloendndfphd" target="_blank" rel="noopener noreferrer">Edge ↗</a><a href="https://addons.mozilla.org/firefox/addon/tampermonkey/" target="_blank" rel="noopener noreferrer">Firefox ↗</a></div></div></li>
+        <li><span class="step-index">2</span><div><h3>Allow userscripts</h3><p>In Chrome / Edge, open Tampermonkey's extension details and enable <strong>Allow User Scripts</strong>. Older versions may use Developer mode instead.</p><a class="text-link" href="https://www.tampermonkey.net/faq.php?locale=en&amp;q=Q209" target="_blank" rel="noopener noreferrer">Official permission guide ↗</a></div></li>
+        <li><span class="step-index">3</span><div><h3>Install. Open. Done.</h3><p>Choose the scripts above and confirm each installation in Tampermonkey. Open ChatGPT, or refresh an existing tab.</p><a class="text-link" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer">Open ChatGPT ↗</a></div></li>
+      </ol>
+    </section>
+
+    <section class="mobile-note" aria-labelledby="mobile-title">
+      <div><p class="eyebrow">TAKE IT WITH YOU</p><h2 id="mobile-title">On Firefox Android?</h2><p>Add Tampermonkey from <a href="https://addons.mozilla.org/firefox/addon/tampermonkey/" target="_blank" rel="noopener noreferrer">Firefox Add-ons</a>, return here, and install <strong>Message Search</strong> and <strong>RP Exporter</strong>. No PowerShell needed.</p><p class="fine">Fixpack is optional and desktop-oriented. Its mobile Markdown behavior is not guaranteed.</p></div>
+      <button class="button quiet" id="install-mobile" hidden>Install mobile pair <span aria-hidden="true">→</span></button>
+    </section>
+    <section class="help" aria-labelledby="help-title">
+      <h2 id="help-title">Need a hand?</h2>
+      <details><summary>I see JavaScript instead of an install window.</summary><p>Make sure Tampermonkey is enabled in this browser, allow userscripts if required, then reopen the link. Alternatively, open Tampermonkey → Dashboard → Utilities → Install from URL and paste the script's raw link.</p></details>
+      <details><summary>The scripts don't appear in ChatGPT.</summary><p>Enable the scripts and allow Tampermonkey access to chatgpt.com. Refresh ChatGPT after installation. Disable duplicate copies and older standalone Fixpack components. ChatGPT changes can also break private APIs; check the repository for updates.</p></details>
+      <details><summary>I'm on a shared or restricted PC.</summary><p>If the PC's rules block extensions or GitHub, ask the administrator. This installer does not bypass those restrictions. When leaving, sign out of ChatGPT and remove any private exports you saved.</p></details>
+      <details><summary>Where does my data go?</summary><p>Search and Exporter process your conversation in your browser using your signed-in ChatGPT session. These tools and this page add no analytics. Downloads and updates use GitHub; Fixpack also loads its pinned Markdown library from jsDelivr. Your conversation is not sent to this project. Browser, hosting and extension providers have their own privacy policies.</p></details>
+    </section>
+  </main>
+  <footer class="wrap"><p>Le_Haut ChatGPT Tools <span class="fine">/ A few good tools for longer conversations.</span></p><a href="https://github.com/le-h4ut/lehaut-chatgpt-tools#readme" data-readme>Documentation ↗</a></footer>
+</body>
+</html>

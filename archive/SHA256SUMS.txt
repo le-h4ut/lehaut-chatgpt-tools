@@ -1,0 +1,3 @@
+380042d3445a8e6de2d73e298b31a77bff4c3223f71816b123e480b3bdef5c61  ChatGPT_LeHaut_Fixpack_v1.0.0.user.js
+adf067edc2c057c2cdefb564a1ea77afd28076767a5c05c4d7419629b22e02be  ChatGPT_Message_Search_LeHaut_v1.2.0.user.js
+80a04f7524dfeb14cebad6ad7bb9f11020668735bebc70c5a5eea1573091415c  ChatGPT_RP_Exporter_GUI_v0.2.0.user.js

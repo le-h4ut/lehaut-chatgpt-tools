@@ -1,0 +1,17 @@
+name: Check distribution
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check stable sources and distribution
+        shell: powershell
+        run: ./scripts/verify.ps1

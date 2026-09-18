@@ -1,0 +1,11 @@
+# Conversation exports and local credentials never belong in this repository.
+.env
+.env.*
+!.env.example
+*.log
+exports/
+private/
+work/
+.DS_Store
+Thumbs.db
+Desktop.ini
