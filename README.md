@@ -4,7 +4,7 @@ Three independent Tampermonkey userscripts for a more comfortable ChatGPT: full-
 
 Три независимых скрипта Tampermonkey для ChatGPT: поиск по всей беседе, экспорт переписки и исправления Markdown на компьютере.
 
-Powered by **Tampermonkey**. For Chrome, Edge, Firefox, and Firefox for Android.
+Powered by **Tampermonkey**. For Chrome, Edge, Brave, Firefox, and Firefox for Android.
 
 ---
 
@@ -20,7 +20,7 @@ No manual download, GitHub account, or administrator rights required. Internet a
 
 The installer gives you short instructions in Russian and helps you:
 
-1. Choose an installed Chrome, Edge, or Firefox browser. Your default browser is listed first when recognized. Selection is always explicit, even if only one browser is found. Use **M** to provide the full path to `chrome.exe`, `msedge.exe`, or `firefox.exe` for a custom installation.
+1. Choose an installed Chrome, Edge, Brave, or Firefox browser. Your default browser is listed first when recognized. Selection is always explicit, even if only one browser is found. Use **M** to provide the full path to any browser executable for a custom or portable installation. Known browser names are recognized automatically; for another name, select **Chromium** or **Firefox** so the installer can choose the store and launch arguments. This manual route does not certify compatibility with every browser variant.
 2. Open the official Tampermonkey store if you need it.
 3. Enable **Allow User Scripts** in Chromium when required.
 4. Open the installer page and install the scripts one at a time.
@@ -78,7 +78,7 @@ Fixpack is optional on mobile. It is desktop-oriented; mobile Markdown behavior 
 
 Install Tampermonkey from the official store for your browser:
 
-- [Chrome Web Store](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
+- [Chrome Web Store — Chrome and Brave](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 - [Microsoft Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/iikmkjmpaadaobahmlepeloendndfphd)
 - [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/tampermonkey/)
 
@@ -117,6 +117,12 @@ Exported TXT/JSON files remain wherever you saved them; delete them separately i
 ### Tampermonkey is installed, but the scripts do not run
 
 Check that Tampermonkey and the scripts are enabled, and that the extension has access to `chatgpt.com`. Reload ChatGPT after installation. Disable duplicate scripts and older standalone components of Fixpack. In a private browsing window, the browser may require a separate extension permission.
+
+### Brave and other Chromium browsers
+
+Brave is detected from its registered installation or standard user/system installation paths, including `%LOCALAPPDATA%\BraveSoftware\Brave-Browser\Application\brave.exe`. It uses Tampermonkey from the Chrome Web Store and opens its own `brave://extensions/` details page. See [Brave's official extension instructions](https://support.brave.com/hc/en-us/articles/360017909112-How-can-I-add-extensions-to-Brave).
+
+Other Chromium/Firefox-based browsers can be selected manually using **M**. Supply the actual browser EXE (a portable launcher must support URL arguments), then choose its family if prompted. If an internal settings URL is not supported, open Tampermonkey's extension details from the browser menu. The installer does not restrict manual selection to a list of executable names.
 
 ### Chromium asks for Allow User Scripts
 

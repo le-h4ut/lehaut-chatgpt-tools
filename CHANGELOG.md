@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.2] - 2026-09-19
+
+### Fixed
+
+- Added automatic Brave detection, Chrome Web Store installation and Brave extension settings links.
+- Removed the executable-name allowlist from manual browser selection. Other browser EXEs can use the Chromium or Firefox setup flow chosen by the user.
+- Added regression cases for Brave's registered and standard installations, manual Brave selection, other browser names, invalid paths and cancellation. Userscripts remain unchanged.
+
 ## [v1.0.1] - 2026-09-18
 
 ### Fixed

@@ -6,19 +6,25 @@
     $pagesUrl = 'https://le-h4ut.github.io/lehaut-chatgpt-tools/'
     $browserDefinitions = @(
         [pscustomobject]@{
-            Name = 'Google Chrome'; Exe = 'chrome.exe'; ProgId = 'ChromeHTML'
+            Family = 'Chromium'; Name = 'Google Chrome'; Exe = 'chrome.exe'; ProgId = 'ChromeHTML'
             RelativePath = 'Google\Chrome\Application\chrome.exe'
             Store = 'https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo'
             Settings = 'chrome://extensions/?id=dhdgffkkebhmkfjojejmpbldmpobfkfo'
         },
         [pscustomobject]@{
-            Name = 'Microsoft Edge'; Exe = 'msedge.exe'; ProgId = 'MSEdgeHTM'
+            Family = 'Chromium'; Name = 'Microsoft Edge'; Exe = 'msedge.exe'; ProgId = 'MSEdgeHTM'
             RelativePath = 'Microsoft\Edge\Application\msedge.exe'
             Store = 'https://microsoftedge.microsoft.com/addons/detail/iikmkjmpaadaobahmlepeloendndfphd'
             Settings = 'edge://extensions/?id=iikmkjmpaadaobahmlepeloendndfphd'
         },
         [pscustomobject]@{
-            Name = 'Mozilla Firefox'; Exe = 'firefox.exe'; ProgId = 'FirefoxURL'
+            Family = 'Chromium'; Name = 'Brave'; Exe = 'brave.exe'; ProgId = 'BraveHTML'
+            RelativePath = 'BraveSoftware\Brave-Browser\Application\brave.exe'
+            Store = 'https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo'
+            Settings = 'brave://extensions/?id=dhdgffkkebhmkfjojejmpbldmpobfkfo'
+        },
+        [pscustomobject]@{
+            Family = 'Firefox'; Name = 'Mozilla Firefox'; Exe = 'firefox.exe'; ProgId = 'FirefoxURL'
             RelativePath = 'Mozilla Firefox\firefox.exe'
             Store = 'https://addons.mozilla.org/firefox/addon/tampermonkey/'
             Settings = ''
@@ -50,7 +56,7 @@
             # FilePath is separate from arguments, so spaces and Cyrillic paths work.
             # This is the interactive browser the user selected, not a hidden helper.
             $arguments = @('"' + $Url + '"')
-            if ($Browser.Name -eq 'Mozilla Firefox') { $arguments = @('-new-tab') + $arguments }
+            if ($Browser.Family -eq 'Firefox') { $arguments = @('-new-tab') + $arguments }
             Start-Process -FilePath $Browser.Path -ArgumentList $arguments -ErrorAction Stop | Out-Null
             return $true
         } catch {
@@ -80,14 +86,14 @@
                 $path = Find-BrowserPath $definition
                 if ($path) {
                     [pscustomobject]@{
-                        Name = $definition.Name; Path = $path; Store = $definition.Store; Settings = $definition.Settings
+                        Family = $definition.Family; Name = $definition.Name; Path = $path; Store = $definition.Store; Settings = $definition.Settings
                         IsDefault = ([string]$defaultId -like "$($definition.ProgId)*")
                     }
                 }
             }
         )
         $available = @($available | Sort-Object -Property @{ Expression = 'IsDefault'; Descending = $true })
-        Write-Host 'Поддерживаются Chrome, Edge и Firefox. Выберите браузер для установки.'
+        Write-Host 'Автопоиск: Chrome, Edge, Brave и Firefox. Другой браузер можно указать вручную.'
         if ($available.Count -eq 0) {
             Write-Host 'Автоматически не найден ни один из поддерживаемых браузеров.' -ForegroundColor Yellow
         } elseif ($available.Count -eq 1) {
@@ -98,7 +104,7 @@
             if ($available[$i].IsDefault) { $suffix = ' (по умолчанию)' }
             Write-Host ('{0}. {1}{2}' -f ($i + 1), $available[$i].Name, $suffix)
         }
-        Write-Host 'M. Указать путь к chrome.exe, msedge.exe или firefox.exe вручную'
+        Write-Host 'M. Указать EXE другого или portable-браузера вручную'
         Write-Host 'Q. Выйти'
         $selected = $null
         while ($null -eq $selected) {
@@ -108,15 +114,33 @@
                 $manualPath = (Read-Host 'Полный путь к EXE браузера (Q — назад)').Trim().Trim('"')
                 if ($manualPath -match '^\s*[QqЙй]\s*$') { continue }
                 $manualPath = [Environment]::ExpandEnvironmentVariables($manualPath)
+                if (-not [IO.Path]::IsPathRooted($manualPath) -or
+                    [IO.Path]::GetExtension($manualPath) -ine '.exe' -or
+                    -not (Test-Path -LiteralPath $manualPath -PathType Leaf)) {
+                    Write-Host 'Укажите полный путь к существующему EXE-файлу браузера.' -ForegroundColor Yellow
+                    continue
+                }
                 $definition = $browserDefinitions | Where-Object { $_.Exe -eq [IO.Path]::GetFileName($manualPath) } | Select-Object -First 1
-                if ($definition -and [IO.Path]::IsPathRooted($manualPath) -and (Test-Path -LiteralPath $manualPath -PathType Leaf)) {
-                    $selected = [pscustomobject]@{
-                        Name = $definition.Name; Path = $manualPath; Store = $definition.Store; Settings = $definition.Settings
-                        IsDefault = $false
+                if (-not $definition) {
+                    Write-Host 'Имя браузера не распознано. Укажите его семейство для выбора магазина и параметров запуска.'
+                    Write-Host '1. Chromium (Chrome Web Store)'
+                    Write-Host '2. Firefox (Firefox Add-ons)'
+                    while ($true) {
+                        $familyChoice = Read-Host 'Семейство браузера [1/2/Q — назад]'
+                        if ($familyChoice -match '^\s*[QqЙй]\s*$') { break }
+                        if ($familyChoice.Trim() -eq '1') { $definition = $browserDefinitions[0]; break }
+                        if ($familyChoice.Trim() -eq '2') { $definition = $browserDefinitions | Where-Object { $_.Family -eq 'Firefox' } | Select-Object -First 1; break }
+                        Write-Host 'Введите 1, 2 или Q.'
                     }
+                    if (-not $definition) { continue }
+                    $browserName = [IO.Path]::GetFileNameWithoutExtension($manualPath)
+                    Write-Host 'Используется стандартный маршрут выбранного семейства; совместимость конкретного браузера не проверена.'
                 } else {
-                    Write-Host 'Файл не найден или это не chrome.exe, msedge.exe либо firefox.exe.' -ForegroundColor Yellow
-                    Write-Host 'Для portable-версии укажите EXE самого браузера, а не его launcher.'
+                    $browserName = $definition.Name
+                }
+                $selected = [pscustomobject]@{
+                    Family = $definition.Family; Name = $browserName; Path = $manualPath; Store = $definition.Store; Settings = $definition.Settings
+                    IsDefault = $false
                 }
                 continue
             }
