@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.0.3] - 2026-09-19
+
+### Fixed
+
+- Replaced fixed browser-location probes with enumeration of Windows browser registrations, including user, machine and 32-bit registrations and the default HTTPS handler.
+- Discover Opera GX and unfamiliar registered browsers without adding them to a discovery allowlist. Unknown families are prompted after selection; duplicate and stale registrations are handled.
+- Added registry-fixture tests for unfamiliar browsers, Opera, duplicate registrations, default handlers, stale paths and command parsing. Userscript logic and versions remain unchanged.
+
 ## [v1.0.2] - 2026-09-19
 
 ### Fixed

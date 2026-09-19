@@ -4,7 +4,7 @@ Three independent Tampermonkey userscripts for a more comfortable ChatGPT: full-
 
 Три независимых скрипта Tampermonkey для ChatGPT: поиск по всей беседе, экспорт переписки и исправления Markdown на компьютере.
 
-Powered by **Tampermonkey**. For Chrome, Edge, Brave, Firefox, and Firefox for Android.
+Powered by **Tampermonkey**. For Chromium-based browsers (including Chrome, Edge, Brave and Opera), Firefox, and Firefox for Android.
 
 ---
 
@@ -20,7 +20,7 @@ No manual download, GitHub account, or administrator rights required. Internet a
 
 The installer gives you short instructions in Russian and helps you:
 
-1. Choose an installed Chrome, Edge, Brave, or Firefox browser. Your default browser is listed first when recognized. Selection is always explicit, even if only one browser is found. Use **M** to provide the full path to any browser executable for a custom or portable installation. Known browser names are recognized automatically; for another name, select **Chromium** or **Firefox** so the installer can choose the store and launch arguments. This manual route does not certify compatibility with every browser variant.
+1. Choose a browser discovered from Windows browser registrations (including Opera and Opera GX). Your default browser is listed first when recognized. Selection is always explicit, even if only one browser is found. Use **M** to provide the full path to any browser executable for a custom or portable installation. Known browser names are recognized automatically; for another name, select **Chromium** or **Firefox** so the installer can choose the store and launch arguments. This manual route does not certify compatibility with every browser variant.
 2. Open the official Tampermonkey store if you need it.
 3. Enable **Allow User Scripts** in Chromium when required.
 4. Open the installer page and install the scripts one at a time.
@@ -118,11 +118,19 @@ Exported TXT/JSON files remain wherever you saved them; delete them separately i
 
 Check that Tampermonkey and the scripts are enabled, and that the extension has access to `chatgpt.com`. Reload ChatGPT after installation. Disable duplicate scripts and older standalone components of Fixpack. In a private browsing window, the browser may require a separate extension permission.
 
+### How browser discovery works
+
+The installer enumerates Windows `Clients\StartMenuInternet` and `RegisteredApplications` browser capabilities in both user and machine registrations, including 32-bit registrations. It also resolves the current default HTTPS browser's ProgID. It reads each registered executable path, checks that the file exists, and removes duplicate registrations for the same executable. It does not search for a fixed set of browser names or scan browser profiles.
+
+Browser-name recognition is used only to choose store/settings links and launch arguments. An unfamiliar registered browser still appears in the list; its family is requested when you select it. Internet Explorer is explicitly reported as unsupported. A portable browser with no Windows registration requires the **M** option; arbitrary folders and disks are not scanned.
+
+Opera/Opera GX use the Chrome Web Store and their `opera://extensions/` manager. See [Opera's extension installation FAQ](https://help.opera.com/en/faq/) and [Microsoft's application registration documentation](https://learn.microsoft.com/en-us/windows/win32/shell/default-programs).
+
 ### Brave and other Chromium browsers
 
-Brave is detected from its registered installation or standard user/system installation paths, including `%LOCALAPPDATA%\BraveSoftware\Brave-Browser\Application\brave.exe`. It uses Tampermonkey from the Chrome Web Store and opens its own `brave://extensions/` details page. See [Brave's official extension instructions](https://support.brave.com/hc/en-us/articles/360017909112-How-can-I-add-extensions-to-Brave).
+Brave is discovered from its Windows browser registration, just like other registered browsers. It uses Tampermonkey from the Chrome Web Store and opens its own `brave://extensions/` details page. See [Brave's official extension instructions](https://support.brave.com/hc/en-us/articles/360017909112-How-can-I-add-extensions-to-Brave).
 
-Other Chromium/Firefox-based browsers can be selected manually using **M**. Supply the actual browser EXE (a portable launcher must support URL arguments), then choose its family if prompted. If an internal settings URL is not supported, open Tampermonkey's extension details from the browser menu. The installer does not restrict manual selection to a list of executable names.
+Other registered browsers also appear automatically, including unfamiliar names. If the browser family cannot be recognized, the installer asks you to choose Chromium or Firefox. Unregistered/portable browsers can be selected manually using **M**. Supply the actual browser EXE (a portable launcher must support URL arguments), then choose its family if prompted. If an internal settings URL is not supported, open Tampermonkey's extension details from the browser menu. The installer does not restrict manual selection to a list of executable names.
 
 ### Chromium asks for Allow User Scripts
 
