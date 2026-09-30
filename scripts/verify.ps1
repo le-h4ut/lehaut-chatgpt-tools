@@ -10,11 +10,18 @@ $node = Get-Command node -ErrorAction SilentlyContinue
 $manifestText = [IO.File]::ReadAllText((Join-Path $root 'docs/config.js'))
 $manifestJson = $manifestText.Substring($manifestText.IndexOf('=') + 1).Trim().TrimEnd(';')
 $manifest = $manifestJson | ConvertFrom-Json
-foreach ($original in Get-ChildItem -LiteralPath (Join-Path $root 'archive') -Filter '*.user.js') {
-    $name = $original.Name -replace '_v\d+\.\d+\.\d+(?=\.user\.js$)', ''
-    $path = Join-Path $root ('userscripts/' + $name)
+foreach ($current in Get-ChildItem -LiteralPath (Join-Path $root 'userscripts') -Filter '*.user.js') {
+    $name = $current.Name
+    $path = $current.FullName
+    $currentText = [IO.File]::ReadAllText($path)
+    $currentHeaderEnd = $currentText.IndexOf($marker)
+    if ($currentHeaderEnd -lt 0) { throw "Missing header: $name" }
+    $version = [regex]::Match($currentText.Substring(0, $currentHeaderEnd), '(?m)^//\s+@version\s+(\S+)').Groups[1].Value
+    $archiveName = $name -replace '\.user\.js$', ("_v{0}.user.js" -f $version)
+    $original = Get-Item -LiteralPath (Join-Path $root ('archive/' + $archiveName)) -ErrorAction SilentlyContinue
+    if (-not $original) { throw "Missing archive snapshot for current version: $archiveName" }
     $before = [IO.File]::ReadAllText($original.FullName)
-    $after = [IO.File]::ReadAllText($path)
+    $after = $currentText
     $beforeEnd = $before.IndexOf($marker)
     $afterEnd = $after.IndexOf($marker)
     if ($beforeEnd -lt 0 -or $afterEnd -lt 0) { throw "Missing header: $name" }
@@ -27,7 +34,6 @@ foreach ($original in Get-ChildItem -LiteralPath (Join-Path $root 'archive') -Fi
         $matchesFound = [regex]::Matches($header, "(?m)^//\s+@$field\s+(\S+)")
         if ($matchesFound.Count -ne 1 -or $matchesFound[0].Groups[1].Value -cne ($raw + $name)) { throw "Invalid $field in $name" }
     }
-    $version = [regex]::Match($header, '(?m)^//\s+@version\s+(\S+)').Groups[1].Value
     $entry = @($manifest.scripts | Where-Object { $_.file -eq $name })
     if ($entry.Count -ne 1 -or $entry[0].version -ne $version -or $entry[0].url -ne ($raw + $name)) { throw "Stale page manifest: $name" }
     if ($node) { & $node.Source --check $path; if ($LASTEXITCODE -ne 0) { throw "JavaScript syntax failed: $name" } }

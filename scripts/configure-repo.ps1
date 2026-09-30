@@ -26,8 +26,8 @@ $raw = 'https://raw.githubusercontent.com/{0}/{1}/{2}' -f $config.owner, $config
 $repo = 'https://github.com/{0}/{1}' -f $config.owner, $config.repository
 $pages = 'https://{0}.github.io/{1}/' -f $config.owner.ToLowerInvariant(), $config.repository
 $items = @(
-    @{ id = 'fixpack'; file = 'ChatGPT_LeHaut_Fixpack.user.js'; original = 'ChatGPT_LeHaut_Fixpack_v1.0.0.user.js' },
-    @{ id = 'search'; file = 'ChatGPT_Message_Search_LeHaut.user.js'; original = 'ChatGPT_Message_Search_LeHaut_v1.2.0.user.js' },
+    @{ id = 'fixpack'; file = 'ChatGPT_LeHaut_Fixpack.user.js'; original = 'ChatGPT_LeHaut_Fixpack_v1.4.0.user.js' },
+    @{ id = 'search'; file = 'ChatGPT_Message_Search_LeHaut.user.js'; original = 'ChatGPT_Message_Search_LeHaut_v1.2.1.user.js' },
     @{ id = 'exporter'; file = 'ChatGPT_RP_Exporter_GUI.user.js'; original = 'ChatGPT_RP_Exporter_GUI_v0.2.0.user.js' }
 )
 $manifest = @()

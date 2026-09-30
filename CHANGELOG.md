@@ -1,5 +1,14 @@
 # Changelog
 
+## [v1.4.0] - 2026-09-30
+
+### Fixed
+
+- Updated Fixpack composer detection for ChatGPT's new `data-chatgpt-composer` and `data-thread-find-composer` markup, restoring the MD toggle and Markdown-on-send handling.
+- Added an independent right-side prompt navigator backed by the complete paginated conversation data. It can jump through virtualized long chats without relying on ChatGPT's removed native navigator.
+- Updated Message Search 1.2.1 to hand its already-loaded history to the navigator when Search wins the shared interceptor race at page start.
+- Updated verification so every currently distributed userscript must have a matching immutable versioned archive snapshot.
+
 ## [v1.0.3] - 2026-09-19
 
 ### Fixed

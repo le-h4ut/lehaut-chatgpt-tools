@@ -38,13 +38,13 @@ Already have Tampermonkey, or prefer installing through your browser?
 
 | Tool | What it does | Desktop | Firefox Android |
 | --- | --- | --- | --- |
-| **Le_Haut Fixpack 1.0.0** | Full history, literal Markdown while composing, Markdown rendering on send | Yes | Optional; mobile Markdown behavior is not guaranteed |
-| **Message Search 1.2.0** | Full-conversation search and jumps to older messages; includes full-history injection | Yes | Yes |
+| **Le_Haut Fixpack 1.4.0** | Full history with a right-side prompt navigator, literal Markdown while composing, Markdown rendering on send | Yes | Optional; mobile Markdown behavior is not guaranteed |
+| **Message Search 1.2.1** | Full-conversation search and jumps to older messages; includes full-history injection | Yes | Yes |
 | **RP Exporter GUI 0.2.0** | Load and check the current conversation, export readable RP TXT or RAW JSON | Yes | Yes |
 
 ### Le_Haut Fixpack
 
-Includes **Full History Injector**, **Composer Format Guard**, and **Markdown Render on Send**. This package uses the original stable **1.0.0**. Experimental mobile versions 1.1–1.3 are deliberately excluded.
+Includes **Full History Injector**, a self-contained **right-side prompt navigator**, **Composer Format Guard**, and **Markdown Render on Send**. Version **1.4.0** supports ChatGPT's September 2026 composer markup and no longer depends on ChatGPT rendering its removed native navigator.
 
 Disable older standalone Full History, Composer Format Guard, or Markdown-on-send scripts when using Fixpack. Keep one enabled copy of each tool.
 
@@ -98,7 +98,7 @@ The canonical filenames in `userscripts/` do not include a version number. Their
 
 Tampermonkey checks those addresses according to its update settings and updates when a higher `@version` is published. Update checks must be enabled; their timing is controlled by Tampermonkey. You can also use its **Check for updates** action or reopen **Install / Update** on the installer page.
 
-For this first distribution, versions stay at **1.0.0 / 1.2.0 / 0.2.0** because only update metadata changed. If you previously installed an original file, install the canonical version once and confirm **Reinstall/Update** even when its version is unchanged. This sets the GitHub update addresses. Keep one enabled copy, and check its update URL in Tampermonkey's script settings.
+Current script versions are **1.4.0 / 1.2.1 / 0.2.0**. If you previously installed an original file, install the canonical version once and confirm **Reinstall/Update**. This sets the GitHub update addresses. Keep one enabled copy, and check its update URL in Tampermonkey's script settings.
 
 Files in `archive/` are untouched source snapshots, not installation targets.
 

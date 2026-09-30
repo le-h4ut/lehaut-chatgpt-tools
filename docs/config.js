@@ -7,13 +7,13 @@ window.LEHAUT_CONFIG = {
     {
       "id": "fixpack",
       "file": "ChatGPT_LeHaut_Fixpack.user.js",
-      "version": "1.0.0",
+      "version": "1.4.0",
       "url": "https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_LeHaut_Fixpack.user.js"
     },
     {
       "id": "search",
       "file": "ChatGPT_Message_Search_LeHaut.user.js",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "url": "https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_Message_Search_LeHaut.user.js"
     },
     {

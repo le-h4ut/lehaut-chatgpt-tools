@@ -11,8 +11,6 @@
 // @grant        GM_getValue
 // @grant        GM_setValue
 // @require      https://cdn.jsdelivr.net/npm/marked@18.0.11/lib/marked.umd.js
-// @updateURL    https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_LeHaut_Fixpack.user.js
-// @downloadURL  https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_LeHaut_Fixpack.user.js
 // ==/UserScript==
 
 /*

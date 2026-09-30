@@ -8,8 +8,6 @@
 // @run-at       document-start
 // @noframes
 // @grant        unsafeWindow
-// @updateURL    https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_Message_Search_LeHaut.user.js
-// @downloadURL  https://raw.githubusercontent.com/le-h4ut/lehaut-chatgpt-tools/main/userscripts/ChatGPT_Message_Search_LeHaut.user.js
 // ==/UserScript==
 
 (() => {
